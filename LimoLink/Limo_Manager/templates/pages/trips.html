@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Welcome to Trip's Page</h2>
+
+  <h2>Trip List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Driver</th>
+        <th>Pickup Location</th>
+        <th>Dropoff Location</th>
+        <th>Airline</th>
+        <th>Passengers</th>
+        <th>Pickup Time</th>
+        <th>Fare</th>
+        <th>Payment Method</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trip in trips %}
+        <tr>
+          <td>{{ trip.customer.name }}</td>
+          <td>{{ trip.driver.name }}</td>
+          <td>{{ trip.pickup_location }}</td>
+          <td>{{ trip.dropoff_location }}</td>
+          <td>{{ trip.airline }}</td>
+          <td>{{ trip.passengers }}</td>
+          <td>{{ trip.pickup_time }}</td>
+          <td>{{ trip.fare }}</td>
+          <td>{{ trip.payment_method }}</td>
+          <td>{{ trip.status }}</td>
+          <td>
+            <a href="{% url 'trip_detail' trip.id %}">View</a> |
+            <a href="{% url 'edit_trip' trip.id %}">Edit</a> |
+            <a href="{% url 'delete_trip' trip.id %}">Delete</a> |
+          </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'add_trip' %}">Add New Trip</a>
+
+  
+{% endblock %}

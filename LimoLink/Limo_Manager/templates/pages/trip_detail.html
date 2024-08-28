@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Trip Details</h2>
+    <p><strong>Customer:</strong>{{ trip.customer.name }}</p>
+    <p><strong>Driver:</strong>{{ trip.driver.name }}</p>
+    <p><strong>Pickup Location:</strong>{{ trip.pickup_location }}</p>
+    <p><strong>Dropoff Location:</strong>{{ trip.dropoff_location }}</p>
+    <p><strong>Airline</strong>{{ trip.airline }}</p>
+    <p><strong>Passengers</strong>{{ trip.passengers }}</p>
+    <p><strong>Pickup Time</strong>{{ trip.pickup_time }}</p>
+    <p><strong>Fare</strong>{{ trip.fare }}</p>
+    <p><strong>Payment Method</strong>{{ trip.payment_method }}</p>
+    <p><strong>Status</strong>{{ trip.status }}</p>
+    <p>
+      <a href="{% url 'edit_trip' trip.id %}">Edit</a>
+      <a href="{% url 'delete_trip' trip.id %}">Delete</a>
+      <a href="{% url 'trip_list' trip.id %}">Back to List</a>
+    </p>
+{% endblock %}
