@@ -18,7 +18,7 @@ def add_customer(request):
             return redirect('customers')
     else:
         form = CustomerForm()
-    return render(request, 'add_customer.html', {'form': form})
+    return render(request, './pages/add_customer.html', {'form': form})
 
 def edit_customer(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)

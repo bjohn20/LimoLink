@@ -23,17 +23,34 @@ STATUS = [
 
 # Create your models here.
 class Customer(models.Model):
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
+    street_address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    preferred_contact_method = models.CharField(max_length=50, blank=True)
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class Driver(models.Model):
-    name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_TYPES)
     reliability = models.CharField(max_length=10, choices=RELIABILITY_CHOICES)
     passenger_limit = models.IntegerField()
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} (License: {self.license_number})"
+
+    
+
 
 class Trip(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -47,3 +64,5 @@ class Trip(models.Model):
     payment_method = models.CharField(max_length=10, choices=[('cash', 'Cash'), ('card', 'Credit/Debit Card')])
     status = models.CharField(max_length=10, choices=STATUS, default='scheduled')
 
+    def __str__(self):
+        return f"Ride on {self.pickup_time.strftime('%Y-%m-%d')} with {self.driver}"

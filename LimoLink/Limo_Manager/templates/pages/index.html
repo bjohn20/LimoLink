@@ -1,3 +1,22 @@
-{% extends 'layouts/base.html' %} {% block content %}
-<h2>Welcome to Limo Manager</h2>
+{% extends 'layouts/base.html' %}
+ {% block content %}
+<section class="content-header">
+  <h2>Welcome to Limo Manager</h2>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-user-plus"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Add New Customer</span>
+                    <a href="{% url 'add_customer' %}" class="btn btn-primary">Go</a>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+</section>
 {% endblock %}
