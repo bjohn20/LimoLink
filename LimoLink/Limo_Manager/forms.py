@@ -4,7 +4,7 @@ from .models import Customer, Trip, Driver
 class CustomerForm(forms.ModelForm):
   class Meta:
     model = Customer
-    fields = ['name', 'email', 'phone']
+    fields = ['first_name', 'last_name', 'email', 'phone']
 
 class TripForm(forms.ModelForm):
   class Meta:
@@ -14,5 +14,5 @@ class TripForm(forms.ModelForm):
 class DriverForm(forms.ModelForm):
   class Meta:
     model = Driver
-    fields = ['name', 'phone', 'vehicle_type', 'reliability', 'passenger_limit']
+    fields = ['first_name', 'last_name', 'phone', 'vehicle_type', 'reliability', 'passenger_limit']
 
