@@ -20,6 +20,10 @@ STATUS = [
     ('canceled', 'Canceled'),
 ]
 
+PASSENGER_LIMIT_CHOICES = [
+    (1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5'),(6,'6'),(7,'7'),
+]
+
 
 # Create your models here.
 class Customer(models.Model):
@@ -44,7 +48,7 @@ class Driver(models.Model):
     phone = models.CharField(max_length=15)
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_TYPES)
     reliability = models.CharField(max_length=10, choices=RELIABILITY_CHOICES)
-    passenger_limit = models.IntegerField()
+    passenger_limit = models.IntegerField(choices=PASSENGER_LIMIT_CHOICES, default=4)
     
     def __str__(self):
         return f"{self.first_name} {self.last_name} (License: {self.license_number})"

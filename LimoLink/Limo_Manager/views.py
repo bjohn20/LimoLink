@@ -95,7 +95,7 @@ def add_driver(request):
             return redirect('drivers')
     else:
         form = DriverForm()
-    return render(request, 'add_driver.html', {'form': form})
+    return render(request, 'pages/add_driver.html', {'form': form})
     
 def edit_driver(request, driver_id):
     driver = get_object_or_404(Driver, id=driver_id)
