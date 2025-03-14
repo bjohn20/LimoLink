@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 
 
@@ -16,18 +17,19 @@ RELIABILITY_CHOICES = [
     ('poor', 'Poor'),
 ]
 
-STATUS = [
-    ('scheduled', 'Scheduled'),
-    ('completed', 'Completed'),
-    ('canceled', 'Canceled'),
-]
 
 PASSENGER_LIMIT_CHOICES = [
     (1,'1'),(2,'2'),(3,'3'),(4,'4'),(5,'5'),(6,'6'),(7,'7'),
 ]
 
 class User(AbstractUser):
-    pass
+    is_active = models.BooleanField(default=True)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
 
 class Client(models.Model):
     first_name = models.CharField(max_length=100)
@@ -54,16 +56,9 @@ class Driver(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
-class Booking(models.Model):
-    client = models.ForeignKey('Client', on_delete=models.CASCADE)
-    driver = models.ForeignKey('Driver', on_delete=models.SET_NULL, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True, related_name='updated_bookings')
-    pickup_location = models.CharField(max_length=255)
-    dropoff_location = models.CharField(max_length=255)
-    airline = models.CharField(max_length=100, blank=True)
-    passengers = models.IntegerField()
-    pickup_time = models.DateTimeField()
-    fare = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=10, choices=[('cash', 'Cash'), ('card', 'Credit/Debit Card')])
-    status = models.CharField(max_length=10, choices=STATUS, default='scheduled')
+    
+def post_user_created_signal(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(post_user_created_signal, sender=User)
