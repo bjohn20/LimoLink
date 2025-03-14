@@ -1,0 +1,71 @@
+<header class="text-gray-600 body-font">
+  <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+        viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+      </svg>
+      <span class="ml-3 text-xl">LimoLink</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+      <a href="{% url 'clients:client-list' %}" class="mr-5 hover:text-gray-900">Clients</a>
+      <a href="{% url 'bookings:booking-list' %}" class="mr-5 hover:text-gray-900">Bookings</a>
+      <a href="{% url 'drivers:driver-list' %}" class="mr-5 hover:text-gray-900">Drivers</a>
+      {% if not request.user.is_authenticated %}
+      <a class="mr-5 hover:text-gray-900">Sign Up</a>
+      {% endif %}
+    </nav>
+
+    {% if request.user.is_authenticated %}
+    <!-- User Dropdown -->
+    <div x-data="{ open: false }" class="relative">
+      <button @click="open = !open"
+        class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
+        <!-- User Icon -->
+        <svg class="w-8 h-8 text-gray-600 hover:text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5.121 17.804A4 4 0 017.197 4h9.606a4 4 0 012.076 7.804M9 15h6m-3-3v6m0-6V8m0 4H4" />
+        </svg>
+        <span class="hidden sm:inline">{{ request.user.username }}</span>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div x-show="open" @click.away="open = false"
+        class="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg py-2">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- <a href="{% url 'logout' %}"
+      class="ml-3 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+      Logout
+      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </a> -->
+    {% else %}
+    <a href="{% url 'login' %}"
+      class="ml-3 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+      Login
+      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </a>
+    {% endif %}
+    </button>
+  </div>
+</header>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

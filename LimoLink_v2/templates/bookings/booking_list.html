@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
+      <div>
+        <h1 class="text-4xl text-gray-800">Bookings</h1>
+      </div>
+      <div>
+        <a href="{% url 'bookings:booking-create' %}" class="text-gray-500 hover:text-blue-500">Create a New Booking</a>
+      </div>
+    </div>
+    <div class="flex flex-col space-y-6">
+      {% for booking in bookings %}
+      <div id="booking-item" class="p-4 w-full">
+        <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 flex row">
+          <div
+            class="w-16 h-16 mr-8 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 flex-shrink-0">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              class="w-8 h-8" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">
+              Booking for {{ booking.client.first_name }} {{ booking.client.last_name }}
+            </h2>
+            <p class="leading-relaxed text-base">
+              <strong>
+                Pickup:
+              </strong>
+              {{ booking.pickup_street_address }}
+              {{ booking.pickup_city }}
+              {{ booking.pickup_state }}
+              {{ booking.pickup_zip_code }}
+              <br>
+            </p>
+            {% if booking.airline != "N/A" %}
+            <p><strong>Airline:</strong>
+              {{ booking.airline }}
+              {{ booking.other_airline }}
+              {{ booking.flight_number }}</p>
+            {% endif %}
+            <p>
+              <strong>
+                Dropoff:
+              </strong>
+              {{ booking.dropoff_street_address }}
+              {{ booking.dropoff_city }}
+              {{ booking.dropoff_state }}
+              {{ booking.dropoff_zip_code }}
+              <br>
+            </p>
+            {% if booking.airline != "N/A" %}
+            <p><strong>Airline:</strong>
+              {{ booking.airline }}
+              {{ booking.other_airline }}
+              {{ booking.flight_number }}</p>
+            {% endif %}
+            <p><strong>Status:</strong>
+              <span class="px-2 py-1 rounded text-white 
+                {% if booking.get_status_display == 'scheduled' %} bg-green 
+                {% elif booking.get_status_display == 'completed'%} bg-yellow-500 
+                {% else %} bg-red-500 
+                {% endif %}">{{ booking.get_status_display }}</span>
+            </p>
+            <a href="{% url 'bookings:booking-detail' booking.pk %}"
+              class=" mt-3 text-blue-500 inline-flex items-center">
+              View This Booking
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-gray-500 text-center mt-6">No bookings found.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination Links -->
+    <div class="flex justify-center mt-6">
+      {% if page_obj.has_previous %}
+      <a href="?page=1" class="px-4 py-2 bg-gray-200 rounded mx-1">First</a>
+      <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-200 rounded mx-1">Previous</a>
+      {% endif %}
+
+      <span class="px-4 py-2 bg-gray-300 rounded mx-1 current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-200 rounded mx-1">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 bg-gray-200 rounded mx-1">Last</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

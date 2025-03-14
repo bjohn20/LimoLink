@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+
+    <!-- Header -->
+    <div class="w-full mb-6 py-6 border-b border-gray-200">
+      <h1 class="text-4xl text-gray-800">Create Booking</h1>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <button type="submit" class="w-full text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md">
+          Submit
+        </button>
+        <a href="{% url 'bookings:booking-list' %}" class="text-gray-600 hover:text-gray-800">
+          Cancel
+        </a>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
